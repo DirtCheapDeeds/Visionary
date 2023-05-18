@@ -1,2 +1,3 @@
-# Visionary
-Home of my computer vision journey
+# Time to Learn
+
+My first machine learning project
