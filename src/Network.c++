@@ -1,48 +1,39 @@
 #include "Main.h"
 
-Network::Network(const ilist& layer_sizes, int num_layers) {
-    for (int i = 0; i < layer_sizes.size() - 1; i++) {
-        layers.push_back(new Layer(layer_sizes[i], layer_sizes[i + 1]));
-    }
+Network::Network(int num_inputs, int num_outputs) {
+    input_layer = new Layer(num_inputs, nullptr, nullptr);
+    output_layer = new Layer(num_outputs, nullptr, nullptr);
+
+    input_layer->connect_layer(nullptr, output_layer);
+    output_layer->connect_layer(input_layer, nullptr);
 }
 
-dlist& Network::calculate_outputs(dlist& inputs) {
+void Network::add_hidden_layer(int num_nodes) {
+    Layer* layer = new Layer(num_nodes, output_layer->prev_layer, output_layer);
+
+    layer->connect_layer(output_layer->prev_layer, output_layer);
+    output_layer->prev_layer->connect_layer(output_layer->prev_layer->prev_layer, layer);
+    output_layer->connect_layer(layer, output_layer->next_layer);
+}
+
+std::vector<double> Network::run(std::vector<double> inputs) {
+    if (inputs.size() != input_layer->nodes.size()) return;
+
+    for (Node* node : input_layer->nodes) {
+        node->activiation = inputs.back();
+        inputs.pop_back();
+    }
+
     for (Layer* layer : layers) {
-        inputs  = layer->calculate_outputs(inputs);
-    }
-    return inputs;
-}
-
-int Network::classify(dlist& inputs) {
-    dlist& outputs = calculate_outputs(inputs);
-    int max_index = 0;
-    double max_num = outputs[0];
-    for (int i = 0; i < outputs.size(); i++) {
-        if (outputs[i] > max_num) {
-            max_num = outputs[i];
-            max_index = i;
-        }
-    }
-    return max_index;
-}
-
-double Network::cost(dlist& inputs, dlist& expected_outputs) {
-    dlist& outputs = calculate_outputs(inputs);
-    Layer* output_layer = layers.back();
-    double cost = 0;
-
-    for (int output = 0; output < outputs.size(); output++) {
-        cost += output_layer->node_cost(outputs[output], expected_outputs[output]);
-    }
-    return cost;
-}
-
-double Network::cost(ddlist& inputs, ddlist& expected_outputs) {
-    double total_cost = 0;
-
-    for (int i = 0; i < inputs.size(); i++) {
-        total_cost += cost(inputs[i], expected_outputs[i]);
+        layer->calculate_activation();
     }
 
-    return total_cost / inputs.size();
+    output_layer->calculate_activation();
+    std::vector<double> outputs;
+    
+    for (Node* node : output_layer->nodes) {
+        outputs.push_back(node->activiation);
+    }
+
+    return outputs;
 }

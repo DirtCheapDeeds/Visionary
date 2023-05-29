@@ -1,57 +1,82 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-
 #include <iostream>
 #include <vector>
 #include <string>
 #include <cmath>
 #include <algorithm>
+#include <random>
+#include <cstdlib>
+#include <ctime>
+#include <unordered_map>
 
-typedef std::vector<int> ilist;
-typedef std::vector<double> dlist;
 
-typedef std::vector<std::vector<int>> iilist;
-typedef std::vector<std::vector<double>> ddlist;
+
+#define random static_cast<double>(std::rand()) / RAND_MAX
 
 typedef struct {
     int x;
     int y;
 } Point;
 
+class Node {
+    public:
+
+        std::vector<Edge*> input_edges;
+        std::vector<Edge*> output_edges;
+
+        double activiation;
+        double bias;
+
+        Node();
+
+};
+
+class Edge {
+    public:
+
+        Node* first_node;
+        Node* second_node;
+        double weight;
+
+        Edge();
+
+        Edge(Node* first_node, Node* second_node);
+
+};
+
 class Layer {
     public:
 
-        int num_inputs;
-        int num_outputs;
+        std::vector<Node*> nodes;
+        Layer* prev_layer;
+        Layer* next_layer;
 
-        dlist biases;
-        ddlist weights;
+        Layer();
 
-        Layer(int num_inputs, int num_outputs);
+        Layer(int num_nodes, Layer* prev_layer, Layer* next_layer);
 
-        dlist calculate_outputs(const dlist& inputs);
+        void connect_layer(Layer* prev_layer, Layer* next_layer);
+
+        void calculate_activation();
 
         double activation_function(double weighted_input);
-
-        double node_cost(double output_activiation, double expected_output);
 
 };
 
 class Network {
     public:
 
+        Layer* input_layer;
         std::vector<Layer*> layers;
+        Layer* output_layer;
 
-        Network(const ilist& layer_sizes, int num_layers);
+        Network(int num_inputs, int num_outputs);
 
-        dlist& calculate_outputs(dlist& inputs);
+        void add_hidden_layer(int num_nodes);
 
-        int classify(dlist& inputs);
-
-        double cost(dlist& inputs, dlist& expected_outputs);
-
-        double cost(ddlist& inputs, ddlist& expected_outputs);
+        std::vector<double> run(std::vector<double> inputs);
 
 };
 

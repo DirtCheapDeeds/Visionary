@@ -2,4 +2,5 @@
 
 void main() {
     
+    std::srand(std::time(nullptr));
 }

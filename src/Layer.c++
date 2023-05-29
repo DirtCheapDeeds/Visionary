@@ -1,26 +1,49 @@
 #include "Main.h"
 
-Layer::Layer(int num_inputs, int num_outputs) : num_inputs(num_inputs), num_outputs(num_outputs) {}
+Layer::Layer(int num_nodes, Layer* prev_layer, Layer* next_layer) 
+    : prev_layer(prev_layer), next_layer(next_layer) {
 
-dlist Layer::calculate_outputs(const dlist& inputs) {
-    dlist activations;
-
-    for (int output = 0; output < num_outputs; output++) {
-        double weighted_input = biases[output];
-        for (int input = 0; input < num_inputs; input++) {
-            weighted_input += inputs[input] + weights[input][output];
-        }
-        activations[output] = activation_function(weighted_input);
+    for (int i = 0; i < num_nodes; i++) {
+        nodes.push_back(new Node());
     }
 
-    return activations;
+    connect_layer(prev_layer, prev_layer);
 }
 
-double Layer::activation_function(double weighted_input) {
-    return 1 / (1 + exp(-weighted_input));
+void Layer::connect_layer(Layer* prev_layer, Layer* next_layer) {
+    this->prev_layer = prev_layer;
+    this->next_layer = next_layer;
+    if (prev_layer != nullptr) {
+        for (Node* first_node : prev_layer->nodes) {
+            for (Node* second_node : this->nodes) {
+                first_node->output_edges.clear();
+                second_node->input_edges.clear();
+                new Edge(first_node, second_node);
+            }
+        }
+    }
+    if (next_layer != nullptr) {
+        for (Node* first_node : this->nodes) {
+            for (Node* second_node : next_layer->nodes) {
+                first_node->output_edges.clear();
+                second_node->input_edges.clear();
+                new Edge(first_node, second_node);
+            }
+        }
+    }
 }
 
-double Layer::node_cost(double output_activiation, double expected_output) {
-    double error = output_activiation - expected_output;
-    return error * error;
+void Layer::calculate_activation() {
+    for (Node* node : nodes) {
+        double weighted_sum = -node->bias;
+        for (Edge* input : node->input_edges) {
+            weighted_sum += input->weight * input->first_node->activiation;
+        }
+        node->activiation = activation_function(weighted_sum);
+    }
 }
+
+double Layer::activation_function(double weighted_sum) {
+    return 1 / (1 + exp(-weighted_sum));
+}
+    
