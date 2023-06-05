@@ -33,17 +33,40 @@ void Layer::connect_layer(Layer* prev_layer, Layer* next_layer) {
     }
 }
 
-void Layer::calculate_activation() {
+void Layer::calculate_activations() {
     for (Node* node : nodes) {
-        double weighted_sum = -node->bias;
-        for (Edge* input : node->input_edges) {
-            weighted_sum += input->weight * input->first_node->activiation;
-        }
-        node->activiation = activation_function(weighted_sum);
+        node->calcualte_weighted_sum();
+        node->calculate_activation();
+    } 
+}
+
+void Layer::calculate_node_values() {
+    for (Node* node : nodes) {
+        node->calculate_node_value();
     }
 }
 
-double Layer::activation_function(double weighted_sum) {
-    return 1 / (1 + exp(-weighted_sum));
+void Layer::calculate_output_layer_node_values(DataPoint& data) {
+    for (int i = 0; i < nodes.size(); i++) {
+        nodes[i]->calculate_output_layer_node_value(data.expected_outputs[i]);
+    }
+}
+
+void Layer::apply_gradients(double learn_rate) {
+    for (Node* node : nodes) {
+        node->apply_gradient(learn_rate);
+    }
+}
+
+void Layer::update_gradients() {
+    for (Node* node : nodes) {
+        node->update_gradient();
+    }
+}
+
+void Layer::reset_gradients() {
+    for (Node* node : nodes) {
+        node->gradient = 0.0;
+    }
 }
     

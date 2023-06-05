@@ -4,6 +4,7 @@ Edge::Edge() {
     first_node = nullptr;
     second_node = nullptr;
     weight = random;
+    gradient = random;
 }
 
 Edge::Edge(Node* first_node, Node* second_node) 
