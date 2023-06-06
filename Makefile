@@ -8,26 +8,43 @@ SRCDIR = src
 OBJDIR = obj
 BINDIR = bin
 
+
+
 #Create executable file
-$(BINDIR)/network: $(OBJDIR)/Main.o $(OBJDIR)/Network.o $(OBJDIR)/Layer.o
+$(BINDIR)/network: $(OBJDIR)/Main.o $(OBJDIR)/Network.o $(OBJDIR)/Layer.o $(OBJDIR)/Node.o $(OBJDIR)/Edge.o $(OBJDIR)/DataPoint.o
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
+
+
 
 #Create Main object file
 $(OBJDIR)/Main.o: $(SRCDIR)/Main.c++ $(SRCDIR)/Main.h
 	$(CXX) $(CXXFLAGS) -I$(SRCDIR) -c $< -o $@
 
 #Create Network object file
-$(OBJDIR)/Network.o: $(SRCDIR)/Network.c++ $(SRCDIR)/Main.h 
+$(OBJDIR)/Network.o: $(SRCDIR)/Network/Network.c++ $(SRCDIR)/Main.h 
 	$(CXX) $(CXXFLAGS) -I$(SRCDIR) -c $< -o $@
 
 #Create Layer bject file
-$(OBJDIR)/Layer.o: $(SRCDIR)/Layer.c++ $(SRCDIR)/Main.h 
+$(OBJDIR)/Layer.o: $(SRCDIR)/Network/Layer.c++ $(SRCDIR)/Main.h 
 	$(CXX) $(CXXFLAGS) -I$(SRCDIR) -c $< -o $@
+
+#Create Layer bject file
+$(OBJDIR)/Node.o: $(SRCDIR)/Network/Node.c++ $(SRCDIR)/Main.h 
+	$(CXX) $(CXXFLAGS) -I$(SRCDIR) -c $< -o $@
+
+#Create Layer bject file
+$(OBJDIR)/Edge.o: $(SRCDIR)/Network/Edge.c++ $(SRCDIR)/Main.h 
+	$(CXX) $(CXXFLAGS) -I$(SRCDIR) -c $< -o $@
+
+#Create Layer bject file
+$(OBJDIR)/DataPoint.o: $(SRCDIR)/Network/DataPoint.c++ $(SRCDIR)/Main.h 
+	$(CXX) $(CXXFLAGS) -I$(SRCDIR) -c $< -o $@
+
 
 
 #Remove all execuable and object files
 clean:
-	rm -f $(OBJDIR)/*.o $(BINDIR)/game
+	rm -f $(OBJDIR)/*.o $(BINDIR)/network
 
 #Run Main execuable file
 exec: $(BINDIR)/network

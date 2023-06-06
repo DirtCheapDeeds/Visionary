@@ -1,4 +1,4 @@
-#include "Main.h"
+#include "./Main.h"
 
 Edge::Edge() {
     first_node = nullptr;

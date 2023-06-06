@@ -1,4 +1,4 @@
-#include "Main.h"
+#include "./Main.h"
 
 Network::Network(int num_inputs, int num_outputs) {
     input_layer = new Layer(num_inputs, nullptr, nullptr);
@@ -25,10 +25,10 @@ void Network::add_hidden_layer(int num_nodes) {
 }
 
 std::vector<double> Network::run(DataPoint& data) {
-    if (data.inputs.size() != input_layer->nodes.size()) return;
-    if (data.expected_outputs.size() != output_layer->nodes.size()) return;
+    if (data.inputs.size() != input_layer->nodes.size()) throw "input size mismatch";
+    if (data.expected_outputs.size() != output_layer->nodes.size()) throw "input size mismatch";
 
-    for (int i = 0; i < input_layer->nodes.size(); i++) {
+    for (int i = 0; i < (int) input_layer->nodes.size(); i++) {
         input_layer->nodes[i]->activation = data.inputs[i];
     }
 
@@ -38,7 +38,7 @@ std::vector<double> Network::run(DataPoint& data) {
 
     std::vector<double> outputs;
 
-    cost == 0.0;
+    cost = 0.0;
 
     for (Node* node : output_layer->nodes) {
         outputs.push_back(node->activation);
@@ -81,7 +81,7 @@ void Network::update_all_gradients(DataPoint& data) {
     output_layer->calculate_output_layer_node_values(data);
     output_layer->update_gradients();
 
-    for (int i = layers.size() - 2; i >= 0; i--) {
+    for (int i = (int) layers.size() - 2; i >= 0; i--) {
         Layer* layer = layers[i];
         layer->calculate_node_values();
         layer->update_gradients();

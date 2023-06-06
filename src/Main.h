@@ -2,6 +2,7 @@
 #define MAIN_H
 
 #include <iostream>
+#include <ncurses.h>
 #include <vector>
 #include <string>
 #include <cmath>
@@ -10,10 +11,14 @@
 #include <cstdlib>
 #include <ctime>
 #include <unordered_map>
+#include <chrono>
+#include <thread>
 
 
 
 #define random static_cast<double>(std::rand()) / RAND_MAX
+
+class Edge;
 
 class DataPoint {
 
@@ -127,11 +132,13 @@ class Network {
 
         double average_cost(std::vector<DataPoint*> training_data);
 
-        void Network::apply_all_gradients(double learn_rate);
+        void apply_all_gradients(double learn_rate);
 
         void update_all_gradients(DataPoint& data);
 
         void reset_all_gradients();
 };
+
+void display_network(Network& network, int x, int y);
 
 #endif

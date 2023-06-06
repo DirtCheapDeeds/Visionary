@@ -1,4 +1,4 @@
-#include "Main.h"
+#include "./Main.h"
 
 Node::Node() {
     bias = random;
@@ -46,10 +46,8 @@ void Node::calculate_node_value() {
     for (Edge* edge : output_edges) {
         node_value += edge->weight * edge->second_node->node_value;
     }
-    for (Edge* edge : input_edges) {
-        calculate_activation_derivative();
-        node_value += activation_derivative;
-    }
+    calculate_activation_derivative();
+    node_value *= activation_derivative;
 }
 
 void Node::calculate_output_layer_node_value(double expected_output) {

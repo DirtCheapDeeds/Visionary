@@ -1,4 +1,4 @@
-#include "Main.h"
+#include "./Main.h"
 
 Layer::Layer(int num_nodes, Layer* prev_layer, Layer* next_layer) 
     : prev_layer(prev_layer), next_layer(next_layer) {
@@ -47,7 +47,7 @@ void Layer::calculate_node_values() {
 }
 
 void Layer::calculate_output_layer_node_values(DataPoint& data) {
-    for (int i = 0; i < nodes.size(); i++) {
+    for (int i = 0; i < (int) nodes.size(); i++) {
         nodes[i]->calculate_output_layer_node_value(data.expected_outputs[i]);
     }
 }
