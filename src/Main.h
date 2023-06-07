@@ -17,6 +17,16 @@
 
 
 #define random static_cast<double>(std::rand()) / RAND_MAX
+#define activation_to_color(value) (std::round((value * 5.0) + 1.0))
+
+
+#define blue 1
+#define cyan 2
+#define green 3
+#define yellow 4
+#define magenta 5
+#define red 6
+#define white 7
 
 class Edge;
 
@@ -138,6 +148,12 @@ class Network {
 
         void reset_all_gradients();
 };
+
+
+
+void init_colors();
+
+
 
 void display_network(Network& network, int x, int y);
 
