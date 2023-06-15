@@ -16,6 +16,7 @@
 
 
 
+
 #define random static_cast<double>(std::rand()) / RAND_MAX
 #define activation_to_color(value) (std::round((value * 5.0) + 1.0))
 

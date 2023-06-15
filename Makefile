@@ -11,11 +11,11 @@ BINDIR = bin
 
 
 #Create executable file
-$(BINDIR)/network: $(OBJDIR)/Main.o $(OBJDIR)/Network.o $(OBJDIR)/Layer.o $(OBJDIR)/Node.o $(OBJDIR)/Edge.o $(OBJDIR)/DataPoint.o $(OBJDIR)/Colors.o $(OBJDIR)/Display.o
+$(BINDIR)/network: $(OBJDIR)/Main.o $(OBJDIR)/Network.o $(OBJDIR)/Layer.o $(OBJDIR)/Node.o $(OBJDIR)/Edge.o $(OBJDIR)/DataPoint.o $(OBJDIR)/Colors.o $(OBJDIR)/Display.o $(OBJDIR)/DataParsing.o
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 #Create Main object file
-$(OBJDIR)/Main.o: $(SRCDIR)/Main.c++ $(SRCDIR)/Main.h
+$(OBJDIR)/Main.o: $(SRCDIR)/Main.c++ $(SRCDIR)/Main.h $(SRCDIR)//DataParsing/DataParsing.h
 	$(CXX) $(CXXFLAGS) -I$(SRCDIR) -c $< -o $@
 
 
@@ -46,8 +46,14 @@ $(OBJDIR)/DataPoint.o: $(SRCDIR)/Network/DataPoint.c++ $(SRCDIR)/Main.h
 $(OBJDIR)/Colors.o: $(SRCDIR)/UserInterface/Colors.c++ $(SRCDIR)/Main.h 
 	$(CXX) $(CXXFLAGS) -I$(SRCDIR) -c $< -o $@
 
-#Create Colors object file
+#Create Display object file
 $(OBJDIR)/Display.o: $(SRCDIR)/UserInterface/Display.c++ $(SRCDIR)/Main.h 
+	$(CXX) $(CXXFLAGS) -I$(SRCDIR) -c $< -o $@
+
+
+
+#Create DataParsing object file
+$(OBJDIR)/DataParsing.o: $(SRCDIR)/DataParsing/DataParsing.c++ $(SRCDIR)/Main.h $(SRCDIR)//DataParsing/DataParsing.h
 	$(CXX) $(CXXFLAGS) -I$(SRCDIR) -c $< -o $@
 
 

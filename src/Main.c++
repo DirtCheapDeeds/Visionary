@@ -1,4 +1,5 @@
 #include "Main.h"
+#include "DataParsing/DataParsing.h"
 
 int main() {
     
@@ -8,13 +9,19 @@ int main() {
     noecho();
     init_colors();
 
-    Network network(5, 3);
-    network.add_hidden_layer(8);
+    custom_fill("training.txt", 1000);
+    custom_fill("testing.txt", 100);
+
+    Network network(2, 2);
     network.add_hidden_layer(8);
 
     std::string input;
 
     bool exit = false;
+    move(0, 0);
+    printw("Input: ");
+    display_network(network, 0, 2);
+    refresh();
     while (!exit) {
         move(0, 0);
         clrtoeol();
