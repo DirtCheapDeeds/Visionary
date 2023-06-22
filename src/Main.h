@@ -137,7 +137,7 @@ class Network {
 
         std::vector<double> run(DataPoint& inputs);
 
-        void learn(std::vector<DataPoint*> training_data, double learn_rate);
+        void learn(std::vector<DataPoint*>& training_data, double learn_rate);
 
     private:
 
@@ -157,5 +157,13 @@ void init_colors();
 
 
 void display_network(Network& network, int x, int y);
+
+
+
+std::string prompt(std::string text);
+
+void train(Network& network);
+
+void test(Network& network);
 
 #endif

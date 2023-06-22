@@ -48,7 +48,7 @@ std::vector<double> Network::run(DataPoint& data) {
     return outputs;
 }
 
-void Network::learn(std::vector<DataPoint*> training_data, double learn_rate) {
+void Network::learn(std::vector<DataPoint*>& training_data, double learn_rate) {
     for (DataPoint* data : training_data) {
         update_all_gradients(*data);
     }

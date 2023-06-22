@@ -9,8 +9,8 @@ int main() {
     noecho();
     init_colors();
 
-    custom_fill("training.txt", 1000);
-    custom_fill("testing.txt", 100);
+    // custom_fill("training.txt", 1000);
+    // custom_fill("testing.txt", 100);
 
     Network network(2, 2);
     network.add_hidden_layer(8);
@@ -23,20 +23,18 @@ int main() {
     display_network(network, 0, 2);
     refresh();
     while (!exit) {
-        move(0, 0);
-        clrtoeol();
-        printw("Input: ");
-        echo();
-        char chars[100];
-        getstr(chars);
-        input = chars;
-        noecho();
-        refresh();
+        input = prompt("command");
 
         display_network(network, 0, 2);
-
-        if (false) {
+        
+        if (input == "new") {
             
+        } else if (input == "load") {
+            
+        } else if (input == "train") {
+            train(network);
+        } else if (input == "test") {
+            test(network);
         } else if (input == "quit") {
             exit = true;
         }

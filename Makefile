@@ -1,6 +1,6 @@
 #Compiler settings
 CXX = g++
-CXXFLAGS = -Wall -Werror -std=c++17
+CXXFLAGS = -g -Wall -Werror -std=c++17
 LDFLAGS = -lncurses
 
 #Directories
@@ -11,7 +11,7 @@ BINDIR = bin
 
 
 #Create executable file
-$(BINDIR)/network: $(OBJDIR)/Main.o $(OBJDIR)/Network.o $(OBJDIR)/Layer.o $(OBJDIR)/Node.o $(OBJDIR)/Edge.o $(OBJDIR)/DataPoint.o $(OBJDIR)/Colors.o $(OBJDIR)/Display.o $(OBJDIR)/DataParsing.o
+$(BINDIR)/network: $(OBJDIR)/Main.o $(OBJDIR)/Network.o $(OBJDIR)/Layer.o $(OBJDIR)/Node.o $(OBJDIR)/Edge.o $(OBJDIR)/DataPoint.o $(OBJDIR)/Colors.o $(OBJDIR)/Display.o $(OBJDIR)/DataParsing.o $(OBJDIR)/Prompt.o
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 #Create Main object file
@@ -48,6 +48,10 @@ $(OBJDIR)/Colors.o: $(SRCDIR)/UserInterface/Colors.c++ $(SRCDIR)/Main.h
 
 #Create Display object file
 $(OBJDIR)/Display.o: $(SRCDIR)/UserInterface/Display.c++ $(SRCDIR)/Main.h 
+	$(CXX) $(CXXFLAGS) -I$(SRCDIR) -c $< -o $@
+
+#Create Prompt object file
+$(OBJDIR)/Prompt.o: $(SRCDIR)/UserInterface/Prompt.c++ $(SRCDIR)/Main.h $(SRCDIR)//DataParsing/DataParsing.h
 	$(CXX) $(CXXFLAGS) -I$(SRCDIR) -c $< -o $@
 
 
