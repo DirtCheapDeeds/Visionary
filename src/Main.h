@@ -133,6 +133,10 @@ class Network {
 
         Network(int num_inputs, int num_outputs);
 
+        Network(std::string file_name);
+
+        void save(std::string file_name);
+
         void add_hidden_layer(int num_nodes);
 
         std::vector<double> run(DataPoint& inputs);

@@ -1,16 +1,28 @@
 #include "Main.h"
-#include "DataParsing/DataParsing.h"
+#include "Data/Data.h"
 
 int main() {
     
     std::srand(std::time(nullptr));
 
+    if (false) {
+
+        Network network(2, 2);
+        network.add_hidden_layer(8);
+
+        std::vector<DataPoint*>* data = custom_parse("training.txt");
+        if ((int) data->size() == 0) printw("faliure");
+        network.learn(*data, 0.5);
+
+        return 0;
+    }
+
     initscr();
     noecho();
     init_colors();
 
-    // custom_fill("training.txt", 1000);
-    // custom_fill("testing.txt", 100);
+    //custom_fill("training.txt", 1000);
+    //custom_fill("testing.txt", 100);
 
     Network network(2, 2);
     network.add_hidden_layer(8);

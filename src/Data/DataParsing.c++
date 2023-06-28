@@ -1,5 +1,5 @@
 #include "./Main.h"
-#include "DataParsing.h"
+#include "Data.h"
 
 std::vector<DataPoint*>* custom_parse(std::string file_name) {
     std::fstream file;
@@ -15,16 +15,16 @@ std::vector<DataPoint*>* custom_parse(std::string file_name) {
         DataPoint* dataPoint = new DataPoint(2, 2);
 
         std::getline(ss, token, ' ');
-        dataPoint->inputs.push_back(std::stod(token));
+        dataPoint->inputs[0] = std::stod(token);
 
         std::getline(ss, token, ' ');
-        dataPoint->inputs.push_back(std::stod(token));
+        dataPoint->inputs[1] = std::stod(token);
 
         std::getline(ss, token, ' ');
-        dataPoint->expected_outputs.push_back(std::stod(token));
+        dataPoint->expected_outputs[0] = std::stod(token);
 
         std::getline(ss, token, ' ');
-        dataPoint->expected_outputs.push_back(std::stod(token));
+        dataPoint->expected_outputs[1] = std::stod(token);
 
         data->push_back(dataPoint);
     }

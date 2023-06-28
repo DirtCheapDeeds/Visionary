@@ -13,6 +13,14 @@ Network::Network(int num_inputs, int num_outputs) {
     cost = 0.0;
 }
 
+Network::Network(std::string file_name) {
+    
+}
+
+void Network::save(std::string file_name) {
+    
+}
+
 void Network::add_hidden_layer(int num_nodes) {
     Layer* layer = new Layer(num_nodes, output_layer->prev_layer, output_layer);
 

@@ -1,27 +1,14 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-      {
-        "name": "C++ Debug",
-        "type": "cppdbg",
-        "request": "launch",
-        "program": "${workspaceFolder}/bin/network",
-        "args": [],
-        "stopAtEntry": true,
-        "cwd": "${workspaceFolder}",
-        "environment": [],
-        "externalConsole": true,
-        "MIMode": "gdb",
-        "miDebuggerPath": "/usr/bin/gdb",
-        "setupCommands": [
-            {
-              "description": "Enable pretty-printing for gdb",
-              "text": "-enable-pretty-printing",
-              "ignoreFailures": true
-            }
-          ],
-          "miDebuggerArgs": "-lncurses"
-      }
-    ]
-  }
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "by-gdb",
+      "request": "launch",
+      "name": "Launch(gdb)",
+      "program": "${workspaceFolder}/bin/network",
+      "cwd": "${workspaceFolder}",
+      "programArgs": "train"
+    }
+  ]
+}
   

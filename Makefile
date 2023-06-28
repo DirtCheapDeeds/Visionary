@@ -1,6 +1,6 @@
 #Compiler settings
 CXX = g++
-CXXFLAGS = -g -Wall -Werror -std=c++17
+CXXFLAGS = -g -Wall -std=c++17
 LDFLAGS = -lncurses
 
 #Directories
@@ -15,7 +15,7 @@ $(BINDIR)/network: $(OBJDIR)/Main.o $(OBJDIR)/Network.o $(OBJDIR)/Layer.o $(OBJD
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 #Create Main object file
-$(OBJDIR)/Main.o: $(SRCDIR)/Main.c++ $(SRCDIR)/Main.h $(SRCDIR)//DataParsing/DataParsing.h
+$(OBJDIR)/Main.o: $(SRCDIR)/Main.c++ $(SRCDIR)/Main.h $(SRCDIR)//Data/Data.h
 	$(CXX) $(CXXFLAGS) -I$(SRCDIR) -c $< -o $@
 
 
@@ -51,13 +51,17 @@ $(OBJDIR)/Display.o: $(SRCDIR)/UserInterface/Display.c++ $(SRCDIR)/Main.h
 	$(CXX) $(CXXFLAGS) -I$(SRCDIR) -c $< -o $@
 
 #Create Prompt object file
-$(OBJDIR)/Prompt.o: $(SRCDIR)/UserInterface/Prompt.c++ $(SRCDIR)/Main.h $(SRCDIR)//DataParsing/DataParsing.h
+$(OBJDIR)/Prompt.o: $(SRCDIR)/UserInterface/Prompt.c++ $(SRCDIR)/Main.h $(SRCDIR)/Data/Data.h
 	$(CXX) $(CXXFLAGS) -I$(SRCDIR) -c $< -o $@
 
 
 
 #Create DataParsing object file
-$(OBJDIR)/DataParsing.o: $(SRCDIR)/DataParsing/DataParsing.c++ $(SRCDIR)/Main.h $(SRCDIR)//DataParsing/DataParsing.h
+$(OBJDIR)/DataParsing.o: $(SRCDIR)/Data/DataParsing.c++ $(SRCDIR)/Main.h $(SRCDIR)/Data/Data.h
+	$(CXX) $(CXXFLAGS) -I$(SRCDIR) -c $< -o $@
+
+#Create SavedData object file
+$(OBJDIR)/SavedData.o: $(SRCDIR)/Data/SavedData.c++ $(SRCDIR)/Main.h $(SRCDIR)/Data/Data.h
 	$(CXX) $(CXXFLAGS) -I$(SRCDIR) -c $< -o $@
 
 
